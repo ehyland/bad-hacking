@@ -62,7 +62,7 @@ export default createApp(async (args) => {
 
 import { startDevServer } from '@bad-hacking/remix-express-app/dev-server';
 
-startDevServer('app/.server/create-app.ts');
+startDevServer('app/.server/create.ts');
 ```
 
 ### 3. Create your production server entry file

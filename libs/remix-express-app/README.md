@@ -22,7 +22,6 @@
 // app/.server/app.ts
 
 import { createApp } from '@bad-hacking/remix-express-app/create-app';
-
 import { createRequestHandler } from '@remix-run/express';
 import express from 'express';
 
@@ -62,7 +61,9 @@ export default createApp(async (args) => {
 
 import { startDevServer } from '@bad-hacking/remix-express-app/dev-server';
 
-startDevServer('app/.server/create.ts');
+startDevServer({
+  expressAppImportPath: 'app/.server/app.ts',
+});
 ```
 
 ### 3. Create your production server entry file
@@ -70,9 +71,9 @@ startDevServer('app/.server/create.ts');
 ```ts
 // app/.server/prod-server.ts
 
-import startApp from './app';
 import express from 'express';
 import * as build from 'virtual:remix/server-build';
+import startApp from './app';
 
 startApp({
   build: build,
@@ -95,6 +96,11 @@ import { remixExpressAppPlugin } from '@bad-hacking/remix-express-app/vite-plugi
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [remix(), remixExpressAppPlugin('app/.server/prod-server.ts')],
+  plugins: [
+    remix(),
+    remixExpressAppPlugin({
+      productionServerEntry: 'app/.server/prod-server.ts',
+    }),
+  ],
 });
 ```

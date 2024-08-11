@@ -1,0 +1,10 @@
+{
+  "name": "@bad-hacking/monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@9.7.0"
+}

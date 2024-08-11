@@ -9,13 +9,6 @@ importers:
   .: {}
 
   libs/remix-express-app:
-    dependencies:
-      dayjs:
-        specifier: ^1.11.12
-        version: 1.11.12
-      remeda:
-        specifier: ^2.10.1
-        version: 2.10.1
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.8.3
@@ -773,9 +766,6 @@ packages:
     resolution: {integrity: sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==}
     engines: {node: '>= 6'}
 
-  dayjs@1.11.12:
-    resolution: {integrity: sha512-Rt2g+nTbLlDWZTwwrIXjy9MeiZmSDI375FvZs72ngxx8PDC6YXOeR3q5LAuPzjZQxhiWdRKac7RKV+YyQYfYIg==}
-
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -1286,9 +1276,6 @@ packages:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
     engines: {node: '>=8.10.0'}
 
-  remeda@2.10.1:
-    resolution: {integrity: sha512-LSMUFASk6lu3E+lr0ErNMeTpUPdTPSR0wBQbOC13CSnh1f9y76fzF7T1uRKcl1lR4rPx5QO06sRvF9cD5oQBPg==}
-
   resolve-from@5.0.0:
     resolution: {integrity: sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==}
     engines: {node: '>=8'}
@@ -1480,10 +1467,6 @@ packages:
 
   turbo-stream@2.2.0:
     resolution: {integrity: sha512-FKFg7A0To1VU4CH9YmSMON5QphK0BXjSoiC7D9yMh+mEEbXLUP9qJ4hEt1qcjKtzncs1OpcnjZO8NgrlVbZH+g==}
-
-  type-fest@4.24.0:
-    resolution: {integrity: sha512-spAaHzc6qre0TlZQQ2aA/nGMe+2Z/wyGk5Z+Ru2VUfdNwT6kWO6TjevOlpebsATEG1EIQ2sOiDszud3lO5mt/Q==}
-    engines: {node: '>=16'}
 
   type-is@1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
@@ -2177,8 +2160,6 @@ snapshots:
 
   data-uri-to-buffer@3.0.1: {}
 
-  dayjs@1.11.12: {}
-
   debug@2.6.9:
     dependencies:
       ms: 2.0.0
@@ -2689,10 +2670,6 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
-  remeda@2.10.1:
-    dependencies:
-      type-fest: 4.24.0
-
   resolve-from@5.0.0: {}
 
   reusify@1.0.4: {}
@@ -2905,8 +2882,6 @@ snapshots:
       - yaml
 
   turbo-stream@2.2.0: {}
-
-  type-fest@4.24.0: {}
 
   type-is@1.6.18:
     dependencies:

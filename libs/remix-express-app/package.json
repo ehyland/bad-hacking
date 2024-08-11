@@ -2,8 +2,6 @@
   "name": "@bad-hacking/remix-express-app",
   "version": "0.0.1",
   "type": "module",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -11,6 +9,20 @@
     "dist"
   ],
   "packageManager": "pnpm@9.7.0",
+  "exports": {
+    "./create-app": {
+      "import": "./dist/create-app.js",
+      "types": "./dist/create-app.d.ts"
+    },
+    "./dev-server": {
+      "import": "./dist/dev-server.js",
+      "types": "./dist/dev-server.d.ts"
+    },
+    "./vite-plugin": {
+      "import": "./dist/vite-plugin.js",
+      "types": "./dist/vite-plugin.d.ts"
+    }
+  },
   "scripts": {
     "dev": "tsup-node --watch",
     "build": "tsup-node",
@@ -35,12 +47,7 @@
     "vite": "^5.4.0",
     "vitest": "^2.0.5"
   },
-  "dependencies": {
-    "dayjs": "^1.11.12",
-    "remeda": "^2.10.1"
-  },
   "peerDependencies": {
-    "express": "^4.19.2",
-    "vite": "^5.4.0"
+    "express": "^4.19.2"
   }
 }

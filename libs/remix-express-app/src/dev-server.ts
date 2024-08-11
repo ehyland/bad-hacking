@@ -9,7 +9,7 @@ export async function startDevServer(args: { expressAppImportPath: string }) {
   const loadBuild = () =>
     viteDevServer.ssrLoadModule('virtual:remix/server-build');
 
-  const { startApp } = await viteDevServer.ssrLoadModule(
+  const { default: startApp } = await viteDevServer.ssrLoadModule(
     args.expressAppImportPath,
   );
 

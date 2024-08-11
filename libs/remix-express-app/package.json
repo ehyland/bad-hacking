@@ -1,0 +1,46 @@
+{
+  "name": "@bad-hacking/remix-express-app",
+  "version": "0.0.1",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "packageManager": "pnpm@9.7.0",
+  "scripts": {
+    "dev": "tsup-node --watch",
+    "build": "tsup-node",
+    "test": "vitest",
+    "test:ci": "CI=true vitest",
+    "format": "prettier --check .",
+    "lint": "biome check",
+    "check": "pnpm format && pnpm lint && pnpm test:ci && tsc && echo success"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@remix-run/express": "^2.11.1",
+    "@remix-run/node": "^2.11.1",
+    "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.2.0",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0",
+    "prettier": "^3.3.3",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.12",
+    "remeda": "^2.10.1"
+  },
+  "peerDependencies": {
+    "express": "^4.19.2",
+    "vite": "^5.4.0"
+  }
+}

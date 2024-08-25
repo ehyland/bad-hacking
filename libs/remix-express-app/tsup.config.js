@@ -12,4 +12,5 @@ export default defineConfig({
   dts: true,
   format: 'esm',
   treeshake: true,
+  skipNodeModulesBundle: true,
 });

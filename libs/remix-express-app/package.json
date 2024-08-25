@@ -30,7 +30,8 @@
     "test:ci": "CI=true vitest",
     "format": "prettier --check .",
     "lint": "biome check",
-    "check": "pnpm format && pnpm lint && pnpm test:ci && tsc && echo success"
+    "typecheck": "tsc",
+    "check": "pnpm run '/^(typecheck|lint|format|test:ci)$/'"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",

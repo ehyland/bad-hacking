@@ -1,8 +1,9 @@
 import { type WritableDraft, produce } from 'immer';
 import type { ReactNode } from 'react';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { StoreApi, UseBoundStore } from 'zustand';
 import { create } from 'zustand';
+import { createBetterContext } from './context';
 
 export type EnhancedStore<TState> = UseBoundStore<StoreApi<TState>> & {
   update: (updater: (draft: WritableDraft<TState>) => void) => void;
@@ -37,7 +38,7 @@ export function createStore<TState, TActions extends ActionDefinitions>(
     actions: BoundActions<TActions>;
   };
 
-  const StoreContext = createContext<ContextValue | undefined>(undefined);
+  const BaseProvider = createBetterContext<ContextValue>('zustand-store');
 
   const StoreProvider = (props: {
     initialState: TState;
@@ -53,11 +54,11 @@ export function createStore<TState, TActions extends ActionDefinitions>(
       return { store, actions: boundActions };
     }, [store, actions]);
 
-    return <StoreContext.Provider {...props} value={contextValue} />;
+    return <BaseProvider {...props} value={contextValue} />;
   };
 
   const useStoreContext = () => {
-    const store = useContext(StoreContext);
+    const store = BaseProvider.use();
 
     if (!store) throw Error("Can't find store in tree");
 

@@ -10,7 +10,7 @@ import {
 import {
   type ActionDefinitions,
   type EnhancedStore,
-  createStore,
+  createReactHooks,
 } from './zustand';
 
 describe('createStore()', () => {
@@ -47,7 +47,7 @@ describe('createStore()', () => {
     return false;
   };
 
-  const storeUtils = createStore<State, Actions>(actions);
+  const storeUtils = createReactHooks<State, Actions>(actions);
   const { StoreProvider, useActions, useSelector, useStore } = storeUtils;
 
   const TestComponent = () => {

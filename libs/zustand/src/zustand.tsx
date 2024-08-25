@@ -17,7 +17,7 @@ export function update<TState>(
   store.setState(nextState);
 }
 
-type CreateStoreResult<TState, TActions extends ActionDefinitions> = {
+type CreateReactHooksResult<TState, TActions extends ActionDefinitions> = {
   StoreProvider: (props: {
     initialState: TState;
     children: ReactNode;
@@ -30,9 +30,30 @@ type CreateStoreResult<TState, TActions extends ActionDefinitions> = {
 
 type Selector<TState, TResult> = (state: TState) => TResult;
 
-export function createStore<TState, TActions extends ActionDefinitions>(
+export function createStore<TState>(
+  initialState: TState,
+): EnhancedStore<TState> {
+  const baseStore = create<TState>(() => initialState);
+  return Object.assign(baseStore, {
+    update: (update<TState>).bind(null, baseStore),
+  });
+}
+
+type StoreProviderProps<TState> =
+  | {
+      initialState: TState;
+      store?: undefined;
+      children: ReactNode;
+    }
+  | {
+      initialState?: undefined;
+      store: EnhancedStore<TState>;
+      children: ReactNode;
+    };
+
+export function createReactHooks<TState, TActions extends ActionDefinitions>(
   actions: TActions,
-): CreateStoreResult<TState, TActions> {
+): CreateReactHooksResult<TState, TActions> {
   type ContextValue = {
     store: EnhancedStore<TState>;
     actions: BoundActions<TActions>;
@@ -40,14 +61,10 @@ export function createStore<TState, TActions extends ActionDefinitions>(
 
   const BaseProvider = createBetterContext<ContextValue>('zustand-store');
 
-  const StoreProvider = (props: {
-    initialState: TState;
-    children: ReactNode;
-  }) => {
-    const [store] = useState<EnhancedStore<TState>>(() => {
-      const base = create<TState>(() => props.initialState);
-      return Object.assign(base, { update: (update<TState>).bind(null, base) });
-    });
+  const StoreProvider = (props: StoreProviderProps<TState>) => {
+    const [store] = useState<EnhancedStore<TState>>(
+      () => props.store ?? createStore(props.initialState),
+    );
 
     const contextValue = useMemo(() => {
       const boundActions = bindActions(store, actions);

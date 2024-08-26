@@ -18,11 +18,7 @@ export function update<TState>(
 }
 
 type CreateReactHooksResult<TState, TActions extends ActionDefinitions> = {
-  StoreProvider: (props: {
-    initialState: TState;
-    children: ReactNode;
-  }) => ReactNode;
-
+  StoreProvider: (props: StoreProviderProps<TState>) => ReactNode;
   useStore: () => EnhancedStore<TState>;
   useSelector: <TResult>(selector: Selector<TState, TResult>) => TResult;
   useActions: () => BoundActions<TActions>;
@@ -102,7 +98,7 @@ export function createReactHooks<TState, TActions extends ActionDefinitions>(
   };
 }
 
-type Action<TState, TArgs extends any[], TResult> = (
+export type Action<TState, TArgs extends any[], TResult> = (
   store: EnhancedStore<TState>,
   ...args: TArgs
 ) => TResult;

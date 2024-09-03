@@ -48,12 +48,14 @@ type StoreProviderProps<TState> =
     };
 
 export function createReactHooks<TState, TActions extends ActionDefinitions>(
-  actions: TActions,
+  actions: TActions | (() => TActions),
 ): CreateReactHooksResult<TState, TActions> {
   type ContextValue = {
     store: EnhancedStore<TState>;
     actions: BoundActions<TActions>;
   };
+
+  const getActions = typeof actions === 'function' ? actions : () => actions;
 
   const BaseProvider = createBetterContext<ContextValue>('zustand-store');
 
@@ -63,9 +65,9 @@ export function createReactHooks<TState, TActions extends ActionDefinitions>(
     );
 
     const contextValue = useMemo(() => {
-      const boundActions = bindActions(store, actions);
+      const boundActions = bindActions(store, getActions());
       return { store, actions: boundActions };
-    }, [store, actions]);
+    }, [store]);
 
     return <BaseProvider {...props} value={contextValue} />;
   };

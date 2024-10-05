@@ -1,6 +1,7 @@
 export {
   createStore,
   createReactHooks,
+  enhanceStore,
   type ActionDefinitions,
   type Action,
   type BoundActions,

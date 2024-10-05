@@ -30,8 +30,14 @@ export function createStore<TState>(
   initialState: TState,
 ): EnhancedStore<TState> {
   const baseStore = create<TState>(() => initialState);
-  return Object.assign(baseStore, {
-    update: (update<TState>).bind(null, baseStore),
+  return enhanceStore(baseStore);
+}
+
+export function enhanceStore<TState>(
+  store: UseBoundStore<StoreApi<TState>>,
+): EnhancedStore<TState> {
+  return Object.assign(store, {
+    update: (update<TState>).bind(null, store),
   });
 }
 

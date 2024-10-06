@@ -1,6 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, expectTypeOf, it } from 'vitest';
 import {
   type GameState,
   type PlayerKey,
@@ -11,9 +11,10 @@ import {
   type ActionDefinitions,
   type EnhancedStore,
   createReactHooks,
+  createStore,
 } from './zustand';
 
-describe('createStore()', () => {
+describe('createReactHooks()', () => {
   type State = {
     count: number;
     nextPlayer: PlayerKey;
@@ -159,5 +160,48 @@ describe('createStore()', () => {
     await clickAndExpectUpdate({ x: 2, y: 1 }, { marker: 'o' });
     await clickAndExpectUpdate({ x: 1, y: 0 }, { marker: 'x' });
     await clickAndExpectUpdate({ x: 0, y: 1 }, { marker: 'o', winner: true });
+  });
+});
+
+describe('createStore()', () => {
+  type State = {
+    count: number;
+  };
+
+  type Store = EnhancedStore<State>;
+
+  const actions = {
+    increment: (store: Store, increment = 1) => {
+      store.update((d) => {
+        d.count += increment;
+      });
+    },
+  };
+
+  const selectors = {
+    count: (state: State) => state.count,
+  };
+
+  let store: EnhancedStore<State>;
+
+  beforeEach(() => {
+    store = createStore<State>({ count: 0 });
+  });
+
+  it('create a standard zustand store', () => {
+    expect(store.getState()).toEqual({ count: 0 });
+    actions.increment(store);
+    expect(store.getState()).toEqual({ count: 1 });
+    actions.increment(store, 4);
+    expect(store.getState()).toEqual({ count: 5 });
+  });
+
+  it('enhances store with select and update', () => {
+    store.update((d) => {
+      d.count = 6;
+    });
+    const count = store.select(selectors.count);
+    expect(count).toEqual(6);
+    expectTypeOf(count).toBeNumber();
   });
 });

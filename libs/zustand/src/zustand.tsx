@@ -7,6 +7,7 @@ import { createBetterContext } from './context';
 
 export type EnhancedStore<TState> = UseBoundStore<StoreApi<TState>> & {
   update: (updater: (draft: WritableDraft<TState>) => void) => void;
+  select: <T>(selector: (state: TState) => T) => T;
 };
 
 export function update<TState>(
@@ -15,6 +16,13 @@ export function update<TState>(
 ) {
   const nextState = produce(store.getState(), updater);
   store.setState(nextState);
+}
+
+export function select<TState>(
+  store: UseBoundStore<StoreApi<TState>>,
+  selector: <T>(state: TState) => T,
+) {
+  return selector(store.getState());
 }
 
 type CreateReactHooksResult<TState, TActions extends ActionDefinitions> = {
@@ -38,6 +46,10 @@ export function enhanceStore<TState>(
 ): EnhancedStore<TState> {
   return Object.assign(store, {
     update: (update<TState>).bind(null, store),
+    select: (select<TState>).bind(
+      null,
+      store,
+    ) as EnhancedStore<TState>['select'],
   });
 }
 

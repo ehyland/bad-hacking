@@ -1,4 +1,6 @@
-type PausedPromise<T> = Promise<T> & {
+type PausedPromise<T> = Promise<T> & PromiseCallbacks<T>;
+
+type PromiseCallbacks<T> = {
   resolve: (value: T | PromiseLike<T>) => void;
   reject: (reason?: any) => void;
 };
@@ -11,7 +13,7 @@ type PausedPromiseQueue<T = void> = {
 };
 
 const createPausedPromise = <T>(): PausedPromise<T> => {
-  const callbacks = {
+  const callbacks: PromiseCallbacks<T> = {
     resolve: null as any,
     reject: null as any,
   };

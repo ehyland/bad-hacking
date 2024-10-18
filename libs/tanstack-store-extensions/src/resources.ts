@@ -183,13 +183,13 @@ async function baseLoadAction<
           dataTimestamp: beforeError.dataTimestamp,
           data: beforeError.data,
           isRefreshing: false,
-          refreshError: error.message || 'An error occurred',
+          refreshError: error?.message || 'An error occurred',
         });
       } else {
         updateResource({
           status: 'ERROR',
           timestamp: Date.now(),
-          errorMessage: error.message || 'An error occurred',
+          errorMessage: error?.message || 'An error occurred',
         });
       }
     },

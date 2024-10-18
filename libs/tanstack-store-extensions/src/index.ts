@@ -7,4 +7,6 @@ export {
   type BoundActions,
 } from './react-hooks';
 
+export { type InferStateSlice, defineResources } from './resources';
+
 export { createBetterContext } from './context';

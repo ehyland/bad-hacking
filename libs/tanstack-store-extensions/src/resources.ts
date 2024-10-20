@@ -22,7 +22,7 @@ type ResourceState<TData> =
   | { status: 'ERROR'; timestamp: number; errorMessage: string };
 
 type Resources<T extends ResourceDefinitions> = {
-  initialStateSlice: DefinitionsToInitialState<T>;
+  initialStateSlice: DefinitionsToInitialStateSlice<T>;
   actions: DefinitionsToActions<T>;
   selectors: DefinitionsToSelectors<T>;
 };
@@ -32,13 +32,15 @@ type Resources<T extends ResourceDefinitions> = {
 type InferDataType<T> = T extends ResourceDefinition<infer D> ? D : never;
 
 export type InferStateSlice<T> =
-  T extends Resources<infer D> ? DefinitionsToInitialState<D> : never;
+  T extends Resources<infer D> ? DefinitionsToInitialStateSlice<D> : never;
 
 type DefinitionToState<T> =
   T extends ResourceDefinition<infer D> ? ResourceState<D> : never;
 
-type DefinitionsToInitialState<T extends ResourceDefinitions> = {
-  [Key in keyof T]: DefinitionToState<T[Key]>;
+type DefinitionsToInitialStateSlice<T extends ResourceDefinitions> = {
+  resources: {
+    [Key in keyof T]: DefinitionToState<T[Key]>;
+  };
 };
 
 type DefinitionsToActions<T extends ResourceDefinitions> = {
@@ -54,7 +56,7 @@ type DefinitionsToSelectors<T extends ResourceDefinitions> = {
 };
 
 type DefinitionToSelectors<T extends ResourceDefinition<any>> = {
-  state: (state: LooseState) => InferDataType<T>;
+  state: (state: LooseState) => ResourceState<InferDataType<T>>;
 };
 
 type LooseState = {
@@ -75,10 +77,15 @@ export function defineResources<T extends ResourceDefinitions>(
 
 function definitionsToInitialState<T extends ResourceDefinitions>(
   resourceDefinitions: T,
-): DefinitionsToInitialState<T> {
-  return Object.fromEntries(
-    Object.keys(resourceDefinitions).map((key) => [key, { status: 'INITIAL' }]),
-  ) as DefinitionsToInitialState<T>;
+): DefinitionsToInitialStateSlice<T> {
+  return {
+    resources: Object.fromEntries(
+      Object.keys(resourceDefinitions).map((key) => [
+        key,
+        { status: 'INITIAL' },
+      ]),
+    ),
+  } as DefinitionsToInitialStateSlice<T>;
 }
 
 function definitionsToSelectors<T extends ResourceDefinitions>(

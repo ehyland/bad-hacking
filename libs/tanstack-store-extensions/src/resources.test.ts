@@ -19,15 +19,13 @@ describe('resources', () => {
     maintenanceMode: { loader: api.maintenanceMode },
   });
 
-  type State = {
-    resources: InferStateSlice<typeof resources>;
-  };
+  type State = InferStateSlice<typeof resources>;
 
   let store: ImmerStore<State>;
 
   beforeEach(() => {
     store = createStore<State>({
-      initialState: { resources: resources.initialStateSlice },
+      initialState: { ...resources.initialStateSlice },
     });
   });
 

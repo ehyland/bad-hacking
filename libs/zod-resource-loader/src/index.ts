@@ -32,34 +32,23 @@ export function createResourceStateSchema<TData>(
   ) as unknown as z.ZodSchema<ResourceState<TData>>;
 }
 
-type ResourceConfig<TData> = {
+type LoadConfig<TData> = {
   schema: z.ZodSchema<ResourceState<TData>>;
   loader: () => Promise<TData>;
-};
-
-type StoreConfig<TData> = {
   getState: () => ResourceState<TData>;
   updateState: (state: ResourceState<TData>) => void;
-};
-
-type LoadOptions = {
-  refresh: boolean;
+  refresh?: boolean;
 };
 
 type Outcome = {
   outcome: 'success' | 'skipped' | 'error';
 };
 
-export async function load<TData>(
-  resource: ResourceConfig<TData>,
-  store: StoreConfig<TData>,
-  { refresh = false }: Partial<LoadOptions> = {},
-): Promise<Outcome> {
-  const initial = store.getState();
-
-  if (initial.status === 'LOADED') {
-    initial.isRefreshing;
-  }
+export async function load<TData>({
+  refresh = false,
+  ...config
+}: LoadConfig<TData>): Promise<Outcome> {
+  const initial = config.getState();
 
   if (
     // exit if loading
@@ -71,7 +60,7 @@ export async function load<TData>(
   }
 
   if (initial.status === 'LOADED') {
-    store.updateState({
+    config.updateState({
       status: 'LOADED',
       timestamp: Date.now(),
       data: initial.data as any,
@@ -80,14 +69,14 @@ export async function load<TData>(
       refreshError: undefined,
     });
   } else {
-    store.updateState({
+    config.updateState({
       status: 'LOADING',
       timestamp: Date.now(),
     });
   }
-  return await resource.loader().then(
+  return await config.loader().then(
     (data) => {
-      store.updateState({
+      config.updateState({
         status: 'LOADED',
         timestamp: Date.now(),
         data: data,
@@ -98,9 +87,9 @@ export async function load<TData>(
       return { outcome: 'success' };
     },
     (error) => {
-      const beforeError = store.getState();
+      const beforeError = config.getState();
       if (beforeError.status === 'LOADED') {
-        store.updateState({
+        config.updateState({
           status: 'LOADED',
           timestamp: Date.now(),
           dataTimestamp: beforeError.dataTimestamp,
@@ -109,7 +98,7 @@ export async function load<TData>(
           refreshError: error?.message || 'An error occurred',
         });
       } else {
-        store.updateState({
+        config.updateState({
           status: 'ERROR',
           timestamp: Date.now(),
           errorMessage: error?.message || 'An error occurred',

@@ -109,10 +109,12 @@ describe('loader', () => {
       state = _state;
     });
 
-    const outcome = await load(
-      { schema: stateSchema, loader: loader },
-      { getState: () => state, updateState: stateState },
-    );
+    const outcome = await load({
+      schema: stateSchema,
+      loader: loader,
+      getState: () => state,
+      updateState: stateState,
+    });
 
     expect(outcome).toEqual({ outcome: 'success' });
 
@@ -161,11 +163,13 @@ describe('loader', () => {
       state = _state;
     });
 
-    const outcome = await load(
-      { schema: stateSchema, loader: loader },
-      { getState: () => state, updateState: stateState },
-      { refresh: true },
-    );
+    const outcome = await load({
+      schema: stateSchema,
+      loader: loader,
+      getState: () => state,
+      updateState: stateState,
+      refresh: true,
+    });
 
     expect(outcome).toEqual({ outcome: 'success' });
 
@@ -226,10 +230,12 @@ describe('loader', () => {
       state = _state;
     });
 
-    const outcome = await load(
-      { schema: stateSchema, loader: loader },
-      { getState: () => state, updateState: stateState },
-    );
+    const outcome = await load({
+      schema: stateSchema,
+      loader: loader,
+      getState: () => state,
+      updateState: stateState,
+    });
 
     expect(outcome).toEqual({ outcome: 'skipped' });
 
@@ -264,11 +270,13 @@ describe('loader', () => {
       state = _state;
     });
 
-    const outcome = await load(
-      { schema: stateSchema, loader: loader },
-      { getState: () => state, updateState: stateState },
-      { refresh: true },
-    );
+    const outcome = await load({
+      schema: stateSchema,
+      loader: loader,
+      getState: () => state,
+      updateState: stateState,
+      refresh: true,
+    });
 
     expect(outcome).toEqual({ outcome: 'error' });
 

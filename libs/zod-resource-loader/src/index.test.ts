@@ -110,7 +110,6 @@ describe('loader', () => {
     });
 
     const outcome = await load({
-      schema: stateSchema,
       loader: loader,
       getState: () => state,
       updateState: stateState,
@@ -164,7 +163,6 @@ describe('loader', () => {
     });
 
     const outcome = await load({
-      schema: stateSchema,
       loader: loader,
       getState: () => state,
       updateState: stateState,
@@ -231,7 +229,6 @@ describe('loader', () => {
     });
 
     const outcome = await load({
-      schema: stateSchema,
       loader: loader,
       getState: () => state,
       updateState: stateState,
@@ -271,7 +268,6 @@ describe('loader', () => {
     });
 
     const outcome = await load({
-      schema: stateSchema,
       loader: loader,
       getState: () => state,
       updateState: stateState,

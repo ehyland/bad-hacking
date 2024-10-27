@@ -33,7 +33,6 @@ export function createResourceStateSchema<TData>(
 }
 
 type LoadConfig<TData> = {
-  schema: z.ZodSchema<ResourceState<TData>>;
   loader: () => Promise<TData>;
   getState: () => ResourceState<TData>;
   updateState: (state: ResourceState<TData>) => void;

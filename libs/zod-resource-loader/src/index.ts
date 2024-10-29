@@ -32,8 +32,12 @@ export function createResourceStateSchema<TData>(
   ) as unknown as z.ZodSchema<ResourceState<TData>>;
 }
 
+type LoaderArgs<TData> = {
+  initialState: ResourceState<TData>;
+};
+
 type LoadConfig<TData> = {
-  loader: () => Promise<TData>;
+  loader: (args: LoaderArgs<TData>) => Promise<TData>;
   getState: () => ResourceState<TData>;
   updateState: (state: ResourceState<TData>) => void;
   refresh?: boolean;
@@ -73,7 +77,7 @@ export async function load<TData>({
       timestamp: Date.now(),
     });
   }
-  return await config.loader().then(
+  return await config.loader({ initialState: initial }).then(
     (data) => {
       config.updateState({
         status: 'LOADED',

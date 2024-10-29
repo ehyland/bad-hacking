@@ -136,6 +136,10 @@ describe('loader', () => {
       status: 'LOADED',
       timestamp: 1730368800000,
     });
+
+    expect(loader).toHaveBeenCalledWith(
+      expect.objectContaining({ initialState: { status: 'INITIAL' } }),
+    );
   });
 
   it('handles loaded to refreshed', async () => {
@@ -200,6 +204,12 @@ describe('loader', () => {
       status: 'LOADED',
       timestamp: 1730368800000,
     });
+
+    expect(loader).toHaveBeenCalledWith(
+      expect.objectContaining({
+        initialState: expect.objectContaining({ status: 'LOADED' }),
+      }),
+    );
   });
 
   it('handles loaded to refreshed skipped', async () => {
